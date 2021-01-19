@@ -2,7 +2,7 @@
 
 React weather app that fetch data from the OpenWeatherMap API and refresh the data every 60 seconds. 🕰 
 
-![Home page](https://github.com/aymanxdev/weather-app/tree/master/app_screenshot.png)
+![Home page](images/app_screenshot.png)
 
 ## Getting started
 
