@@ -17,7 +17,7 @@ REACT_APP_ICON_URL = 'https://openweathermap.org/img/w'
 ```
 
 ## What could be improved further:
-```
+
 If I had more time, I would get more creative with the styling and add more features to the app as follows:
 1. Add a search input to check different cities, and get the Geo location of the user to get the current city’s weather
 
@@ -28,4 +28,6 @@ If I had more time, I would get more creative with the styling and add more feat
 6. Change the loading bar to something more creative
 
 
+```
+NOTE: in case the app show a blank screen, please make sure to clear the local storage. 
 ```
