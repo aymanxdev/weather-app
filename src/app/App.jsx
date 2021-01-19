@@ -100,13 +100,13 @@ function App() {
 
   }, [ ])
 
-  const uniqueForecast = (() =>{
-    return forecast
-            ? forecast.list.filter(
-              a => a.dt_tx.includes('00: 00: 00')
-            )
-            : []
-  }) ()
+  const uniqueForecast = (() => {
+		return forecast
+			? forecast.list.filter(
+				a => a.dt_txt.includes('00:00:00')
+			)
+			: []
+	})()
 
   return (
     <div className="App">
