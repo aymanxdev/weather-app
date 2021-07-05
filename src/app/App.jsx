@@ -98,7 +98,7 @@ function App() {
 
     refreshData()
 
-  }, [ ])
+  }, [refreshData])
 
   const uniqueForecast = (() => {
 		return forecast
