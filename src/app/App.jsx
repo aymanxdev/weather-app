@@ -1,4 +1,5 @@
 import React, {
+	useCallback,
 	useEffect,
 	useState,
 } from 'react'
@@ -96,9 +97,13 @@ function App() {
     let localForecast = localStorage.getItem('OPEN_FORECAST')
     localForecast && setForecast(JSON.parse(localForecast))
 
-    refreshData()
+    
 
-  }, [refreshData])
+  }, [])
+	
+const handleRefreshData = useCallback(() => {
+   refreshData()
+}, [])
 
   const uniqueForecast = (() => {
 		return forecast
