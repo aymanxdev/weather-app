@@ -3,106 +3,94 @@ import React, {
 	useState,
 } from 'react'
 import http from '../http'
-import { sleep } from '../helpers'
 
-//Styles
+// Styles
 import './App.css';
 
 const getDay = date => {
-const day = new Date(date).getDay()
-  return {
-    0: 'Monday',
-    1: 'Tuesday',
-    2: 'Wednesday',
-    3: 'Thursday',
-    4: 'Friday',
-    5: 'Saturday',
-    6: 'Sunday',
-  }[day]
+	const day = new Date(date).getDay()
+	return {
+		0: 'Monday',
+		1: 'Tuesday',
+		2: 'Wednesday',
+		3: 'Thursday',
+		4: 'Friday',
+		5: 'Saturday',
+		6: 'Sunday'
+	}[day]
 }
+
 const getIconUrl = name => {
-  return `http://openweathermap.org/img/wn/${name}.png`
+	return `http://openweathermap.org/img/wn/${name}.png`
 }
 
+const App = () => {
 
-function App() {
-  
-  const [time, setTime] = useState(0)
-  const [error, setError] = useState(false)
-  const [weather, setWeather] = useState(null)
-  const [forecast, setForecast] = useState(null)
-  const [localTime] = useState(
-    new Date().toLocaleString('en-UK', {
-      timeZone: 'Europe/London'
-    }).split(',').pop()
-  )
+	const [time, setTime] = useState(0)
+	const [weather, setWeather] = useState(null)
+	const [forecast, setForecast] = useState(null)
+	//const [fetching, setFetching] = useState(false)
+	const [localTime] = useState(
+		new Date().toLocaleString('en-US', {
+			timeZone: 'Europe/London'
+		}).split(',').pop()
+	)
 
-  const showError = async () => {
-    if (error) return 
-    setError(true)
-    await sleep(3, 'SEC')
-    setError(false)
-  }
+	const fetchData = async () => {
 
-  const fetchData = async () => {
-    console.log('Fetching weather data...')
-    //Get current weather data
-    let weatherRes = await http.getWeather()
-    if (!weatherRes.error){
-      setWeather(weatherRes.data)
-      console.log('Weather', weatherRes.data);
-      localStorage.setItem('OPEN_WEATHER', JSON.stringify(weatherRes.data))
-    } else showError()
-  
-  //Get 5 days forecast data
-  let forecastRes = await http.getForecast()
-  if(!forecastRes.error) {
-    setForecast(forecastRes.data)
-    console.log('Forecast', forecastRes.data);
-    localStorage.setItem('OPEN_FORECAST', forecastRes.data, )
-  } else showError()
+		// Get current weather data
+		let wRes = await http.getWeather()
+		if (!wRes.error) {
+			setWeather(wRes.data)
+			localStorage.setItem('OPEN_WEATHER', JSON.stringify(wRes.data))
+		}
 
-  console.log('Fetching complete!');
-  }
-
-  const refreshData = async () => {
-    //Fetching data
-    await fetchData()
-
-    //Initialising time
-    let lTime = 0
-    setTime(lTime)
-
-    //Interval runs every second 
-    const minInterval = setInterval(() => {
-			if (lTime === 59) {
-				// Clear the interval and refresh data
-				clearInterval(minInterval)
-				refreshData()
-			} else {
-				// increasing current second
-				lTime += 1
-				setTime(lTime)
-			}
-		}, 1000);
-  }
-
-  //Effects
-
-  useEffect(() => {
-    let localWeather = localStorage.getItem('OPEN_WEATHER')
-    localWeather && setWeather(JSON.parse(localWeather))
-
-    let localForecast = localStorage.getItem('OPEN_FORECAST')
-    localForecast && setForecast(JSON.parse(localForecast))
-
-	  refreshData()
-
-  }, [])
-	
+		// Get 5 days forecast data
+		let fRes = await http.getForecast()
+		if (!fRes.error) {
+			setForecast(fRes.data)
+			localStorage.setItem('OPEN_FORECAST', JSON.stringify(fRes.data))
+		}
+	}
 
 
-  const uniqueForecast = (() => {
+
+	// Effects
+	useEffect(() => {
+		let localWeather = localStorage.getItem('OPEN_WEATHER')
+		localWeather && setWeather(JSON.parse(localWeather))
+
+		let localForecast = localStorage.getItem('OPEN_FORECAST')
+		localForecast && setWeather(JSON.parse(localForecast))
+
+		const refreshData = async () => {
+
+			// Fetching data
+			await fetchData()
+
+			// Initializg time
+			let lTime = 0
+			setTime(lTime)
+
+			// Interval run every second
+			const minInterval = setInterval(() => {
+				if (lTime === 59) {
+					// Clearing the interval and refreshing data
+					clearInterval(minInterval)
+					refreshData()
+				} else {
+					// increasing current second
+					lTime += 1
+					setTime(lTime)
+				}
+			}, 1000);
+		}
+
+		refreshData()
+
+	}, [])
+
+	const uniqueForecast = (() => {
 		return forecast
 			? forecast.list.filter(
 				a => a.dt_txt.includes('00:00:00')
@@ -110,8 +98,8 @@ function App() {
 			: []
 	})()
 
-  return (
-    <div className="App">
+	return (
+		<div className="app">
 			<header className="app__header">
 				<div className="container">
 					{(weather && weather.weather) && <div className='header'>
@@ -161,11 +149,8 @@ function App() {
 					</div>
 				))}
 			</div>}
-			<div className={`app__error${error ? ' show' : ''}`}>
-				Error fetching data
-			</div>
 		</div>
-  );
+	);
 }
 
 export default App;
