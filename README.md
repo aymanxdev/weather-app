@@ -27,5 +27,5 @@ If I had more time, I would get more creative with the styling and add more feat
 
 
 ```
-NOTE: in case the app show a blank screen, please make sure to clear the local storage. 
+check out the live site [here](https://boring-brown-042862.netlify.app/)
 ```
