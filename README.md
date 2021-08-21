@@ -26,6 +26,6 @@ If I had more time, I would get more creative with the styling and add more feat
 6. Change the loading bar to something more creative
 
 
-```
+
 check out the live site [here](https://boring-brown-042862.netlify.app/)
-```
+
