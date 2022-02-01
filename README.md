@@ -1,7 +1,5 @@
 # React Weather App ⛅️ 
 
-Working on new updates for this app...
-
 React weather app that fetches data from the OpenWeatherMap API and refreshes the data every 60 seconds. 🕰 
 
 ![Home page](images/app_screenshot.png)
